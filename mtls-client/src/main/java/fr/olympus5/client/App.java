@@ -1,4 +1,4 @@
-package fr.olympus5;
+package fr.olympus5.client;
 
 /**
  * Hello world!

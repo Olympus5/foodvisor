@@ -1,4 +1,4 @@
-package fr.olympus5;
+package fr.olympus5.server;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
