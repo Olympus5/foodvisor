@@ -5,4 +5,4 @@ FROM maven:${MAVEN_BUILDER}
 WORKDIR /app
 COPY . .
 RUN mvn clean package -DskipTests
-CMD java -jar target/mtls-client-1.0.0-SNAPSHOT.jar
+CMD ["java", "-jar", "target/mtls-client-1.0.0-SNAPSHOT.jar"]
