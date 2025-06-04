@@ -10,6 +10,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 
+import java.time.Month;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -19,7 +20,7 @@ import static org.junit.jupiter.api.Assertions.*;
 @ExtendWith(PactConsumerTestExt.class)
 class HttpFoodServicePactTest {
 
-    @Pact(consumer = "MealBatch", provider = "MealService")
+    @Pact(consumer = "MealClient", provider = "MealService")
     public V4Pact getSeasonalFoods(PactDslWithProvider builder) {
         return builder.given("seasonal foods exist")
                 .uponReceiving("get seasonal foods for september")
@@ -40,7 +41,7 @@ class HttpFoodServicePactTest {
                 .build());
         List<String> expected = List.of("Apples", "Pears", "Grapes", "Tomatoes", "Bell Peppers", "Kale", "Mushrooms", "Walnuts", "Chestnuts");
 
-        var foods = foodService.getSeasonalFoods("september");
+        var foods = foodService.getSeasonalFoods(Month.SEPTEMBER);
 
         assertEquals(expected, foods);
     }

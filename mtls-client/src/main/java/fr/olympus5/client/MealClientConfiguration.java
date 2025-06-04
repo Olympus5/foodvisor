@@ -7,7 +7,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.web.client.RestTemplate;
 
 @Configuration
-public class FoodClientConfiguration {
+public class MealClientConfiguration {
     @Bean
     public RestTemplate restTemplate(@Value("${server.port:8000}") int port) {
         return new RestTemplateBuilder()
