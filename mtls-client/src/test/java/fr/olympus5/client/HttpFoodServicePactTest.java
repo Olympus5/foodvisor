@@ -11,6 +11,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -37,22 +38,11 @@ class HttpFoodServicePactTest {
         HttpFoodService foodService = new HttpFoodService(new RestTemplateBuilder().
                 rootUri(mockServer.getUrl())
                 .build());
-        String season = "september";
+        List<String> expected = List.of("Apples", "Pears", "Grapes", "Tomatoes", "Bell Peppers", "Kale", "Mushrooms", "Walnuts", "Chestnuts");
 
-        var foods = foodService.getSeasonalFoods(season);
+        var foods = foodService.getSeasonalFoods("september");
 
-        assertNotNull(foods);
-        assertFalse(foods.isEmpty());
-        assertEquals(9, foods.size());
-        assertTrue(foods.contains("Apples"));
-        assertTrue(foods.contains("Pears"));
-        assertTrue(foods.contains("Grapes"));
-        assertTrue(foods.contains("Tomatoes"));
-        assertTrue(foods.contains("Bell Peppers"));
-        assertTrue(foods.contains("Kale"));
-        assertTrue(foods.contains("Mushrooms"));
-        assertTrue(foods.contains("Walnuts"));
-        assertTrue(foods.contains("Chestnuts"));
+        assertEquals(expected, foods);
     }
 
     private Map<String, String> headers() {
