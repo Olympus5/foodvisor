@@ -25,7 +25,17 @@ public class HttpFoodService implements FoodService {
         return restTemplate.exchange("/foods/seasonal/{month}",
                 HttpMethod.GET,
                 null,
-                new ParameterizedTypeReference<List<String>>() {},
+                new ParameterizedTypeReference<List<String>>() {
+                },
                 month.getDisplayName(TextStyle.FULL, Locale.ENGLISH).toLowerCase()).getBody();
+    }
+
+    @Override
+    public List<String> getAllFoods() {
+        return restTemplate.exchange("/foods",
+                HttpMethod.GET,
+                null,
+                new ParameterizedTypeReference<List<String>>() {
+                }).getBody();
     }
 }
