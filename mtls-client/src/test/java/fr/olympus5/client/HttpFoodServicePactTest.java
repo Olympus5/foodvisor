@@ -15,6 +15,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import static au.com.dius.pact.consumer.dsl.LambdaDsl.newJsonArray;
 import static org.junit.jupiter.api.Assertions.*;
 
 @ExtendWith(PactConsumerTestExt.class)
@@ -29,7 +30,15 @@ class HttpFoodServicePactTest {
                 .willRespondWith()
                 .headers(headers())
                 .status(200)
-                .body("[\"Apples\",\"Pears\",\"Grapes\",\"Tomatoes\",\"Bell Peppers\",\"Kale\",\"Mushrooms\",\"Walnuts\",\"Chestnuts\"]")
+                .body(newJsonArray(a -> a.stringValue("Apples")
+                        .stringValue("Pears")
+                        .stringValue("Grapes")
+                        .stringValue("Tomatoes")
+                        .stringValue("Bell Peppers")
+                        .stringValue("Kale")
+                        .stringValue("Mushrooms")
+                        .stringValue("Walnuts")
+                        .stringValue("Chestnuts")).build())
                 .toPact(V4Pact.class);
     }
 
