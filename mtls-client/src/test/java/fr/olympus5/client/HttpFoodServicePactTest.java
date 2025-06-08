@@ -9,6 +9,8 @@ import au.com.dius.pact.core.model.annotations.Pact;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.boot.web.client.RestTemplateBuilder;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.client.HttpClientErrorException;
 
 import java.time.Month;
 import java.util.HashMap;
@@ -94,6 +96,19 @@ class HttpFoodServicePactTest {
     }
 
     @Pact(consumer = "MealClient", provider = "MealService")
+    public V4Pact noFoodsExist(PactDslWithProvider builder) {
+        return builder.given("no foods exist")
+                .uponReceiving("get all foods")
+                .method("GET")
+                .path("/foods")
+                .willRespondWith()
+                .headers(headers())
+                .status(200)
+                .body("[]")
+                .toPact(V4Pact.class);
+    }
+
+    @Pact(consumer = "MealClient", provider = "MealService")
     public V4Pact getSeasonalFoods(PactDslWithProvider builder) {
         return builder.given("seasonal foods exist")
                 .uponReceiving("get seasonal foods for september")
@@ -114,6 +129,18 @@ class HttpFoodServicePactTest {
                 .toPact(V4Pact.class);
     }
 
+    @Pact(consumer = "MealClient", provider = "MealService")
+    public V4Pact seasonalFoodsDoNotExist(PactDslWithProvider builder) {
+        return builder.given("seasonal foods for october do not exist")
+                .uponReceiving("get seasonal foods for october")
+                .method("GET")
+                .path("/foods/seasonal/october")
+                .willRespondWith()
+                .headers(headers())
+                .status(404)
+                .toPact(V4Pact.class);
+    }
+
     @Test
     @PactTestFor(pactMethod = "getAllFoods")
     void getAllFoods(MockServer mockServer) {
@@ -128,6 +155,18 @@ class HttpFoodServicePactTest {
     }
 
     @Test
+    @PactTestFor(pactMethod = "noFoodsExist")
+    void noFoodsExists(MockServer mockServer) {
+        HttpFoodService foodService = new HttpFoodService(new RestTemplateBuilder()
+                .rootUri(mockServer.getUrl())
+                .build());
+
+        var foods = foodService.getAllFoods();
+
+        assertTrue(foods.isEmpty());
+    }
+
+    @Test
     @PactTestFor(pactMethod = "getSeasonalFoods")
     void getSeasonalFoods(MockServer mockServer) {
         HttpFoodService foodService = new HttpFoodService(new RestTemplateBuilder().
@@ -138,6 +177,18 @@ class HttpFoodServicePactTest {
         var foods = foodService.getSeasonalFoods(Month.SEPTEMBER);
 
         assertEquals(expected, foods);
+    }
+
+    @Test
+    @PactTestFor(pactMethod = "seasonalFoodsDoNotExist")
+    void seasonalFoodsDoNotExist(MockServer mockServer) {
+        HttpFoodService foodService = new HttpFoodService(new RestTemplateBuilder()
+                .rootUri(mockServer.getUrl())
+                .build());
+
+        HttpClientErrorException exception = assertThrows(HttpClientErrorException.class, () -> foodService.getSeasonalFoods(Month.OCTOBER));
+
+        assertEquals(HttpStatus.NOT_FOUND, exception.getStatusCode());
     }
 
     private Map<String, String> headers() {
