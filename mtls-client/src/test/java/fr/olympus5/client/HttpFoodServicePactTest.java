@@ -117,15 +117,16 @@ class HttpFoodServicePactTest {
                 .willRespondWith()
                 .headers(headers())
                 .status(200)
-                .body(newJsonArray(a -> a.stringValue("Apples")
+                .body(newJsonArray(a -> a.stringValue("Pumpkins")
                         .stringValue("Pears")
                         .stringValue("Grapes")
-                        .stringValue("Tomatoes")
-                        .stringValue("Bell Peppers")
+                        .stringValue("Apples")
+                        .stringValue("Squash")
                         .stringValue("Kale")
-                        .stringValue("Mushrooms")
-                        .stringValue("Walnuts")
-                        .stringValue("Chestnuts")).build())
+                        .stringValue("Sweet potatoes")
+                        .stringValue("Beets")
+                        .stringValue("Figs")
+                        .stringValue("Plums")).build())
                 .toPact(V4Pact.class);
     }
 
@@ -172,7 +173,7 @@ class HttpFoodServicePactTest {
         HttpFoodService foodService = new HttpFoodService(new RestTemplateBuilder().
                 rootUri(mockServer.getUrl())
                 .build());
-        List<String> expected = List.of("Apples", "Pears", "Grapes", "Tomatoes", "Bell Peppers", "Kale", "Mushrooms", "Walnuts", "Chestnuts");
+        List<String> expected = List.of("Pumpkins", "Pears", "Grapes", "Apples", "Squash", "Kale", "Sweet potatoes", "Beets", "Figs", "Plums");
 
         var foods = foodService.getSeasonalFoods(Month.SEPTEMBER);
 
