@@ -31,11 +31,11 @@ public class HttpFoodService implements FoodService {
     }
 
     @Override
-    public List<String> getAllFoods() {
+    public List<Food> getAllFoods() {
         return restTemplate.exchange("/foods",
                 HttpMethod.GET,
                 null,
-                new ParameterizedTypeReference<List<String>>() {
+                new ParameterizedTypeReference<List<Food>>() {
                 }).getBody();
     }
 }
