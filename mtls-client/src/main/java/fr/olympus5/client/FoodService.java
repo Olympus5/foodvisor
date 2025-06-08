@@ -4,6 +4,6 @@ import java.time.Month;
 import java.util.List;
 
 public interface FoodService {
-    List<String> getSeasonalFoods(Month september);
+    List<Food> getSeasonalFoods(Month september);
     List<Food> getAllFoods();
 }

@@ -21,11 +21,11 @@ public class HttpFoodService implements FoodService {
     }
 
     @Override
-    public List<String> getSeasonalFoods(Month month) {
+    public List<Food> getSeasonalFoods(Month month) {
         return restTemplate.exchange("/foods/seasonal/{month}",
                 HttpMethod.GET,
                 null,
-                new ParameterizedTypeReference<List<String>>() {
+                new ParameterizedTypeReference<List<Food>>() {
                 },
                 month.getDisplayName(TextStyle.FULL, Locale.ENGLISH).toLowerCase()).getBody();
     }

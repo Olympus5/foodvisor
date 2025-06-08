@@ -1,6 +1,7 @@
 package fr.olympus5.client;
 
 import au.com.dius.pact.consumer.MockServer;
+import au.com.dius.pact.consumer.dsl.LambdaDslObject;
 import au.com.dius.pact.consumer.dsl.PactDslWithProvider;
 import au.com.dius.pact.consumer.junit5.PactConsumerTestExt;
 import au.com.dius.pact.consumer.junit5.PactTestFor;
@@ -17,6 +18,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Consumer;
 
 import static au.com.dius.pact.consumer.dsl.LambdaDsl.newJsonArray;
 import static org.junit.jupiter.api.Assertions.*;
@@ -34,487 +36,65 @@ class HttpFoodServicePactTest {
                 .headers(headers())
                 .status(200)
                 .body(newJsonArray(a -> {
-                    a.object(o -> {
-                        o.stringType("name", "Apples");
-                        o.array("consumptionMonths", m -> {
-                            m.stringValue("January");
-                            m.stringValue("February");
-                            m.stringValue("March");
-                            m.stringValue("September");
-                            m.stringValue("October");
-                            m.stringValue("November");
-                            m.stringValue("December");
-                        });
-                        o.stringType("family", "fruit");
-                    });
-                    a.object(o -> {
-                        o.stringType("name", "Apricots");
-                        o.array("consumptionMonths", m -> {
-                            m.stringValue("May");
-                            m.stringValue("June");
-                        });
-                        o.stringType("family", "fruit");
-                    });
-                    a.object(o -> {
-                        o.stringType("name", "Arugula");
-                        o.array("consumptionMonths", m -> {
-                            m.stringValue("April");
-                        });
-                        o.stringType("family", "vegetable");
-                    });
-                    a.object(o -> {
-                        o.stringType("name", "Artichokes");
-                        o.array("consumptionMonths", m -> {
-                            m.stringValue("March");
-                        });
-                        o.stringType("family", "vegetable");
-                    });
-                    a.object(o -> {
-                        o.stringType("name", "Asparagus");
-                        o.array("consumptionMonths", m -> {
-                            m.stringValue("March");
-                            m.stringValue("April");
-                            m.stringValue("May");
-                        });
-                        o.stringType("family", "vegetable");
-                    });
-                    a.object(o -> {
-                        o.stringType("name", "Beets");
-                        o.array("consumptionMonths", m -> {
-                            m.stringValue("September");
-                        });
-                        o.stringType("family", "vegetable");
-                    });
-                    a.object(o -> {
-                        o.stringType("name", "Bell peppers");
-                        o.array("consumptionMonths", m -> {
-                            m.stringValue("June");
-                            m.stringValue("August");
-                        });
-                        o.stringType("family", "vegetable");
-                    });
-                    a.object(o -> {
-                        o.stringType("name", "Blackberries");
-                        o.array("consumptionMonths", m -> {
-                            m.stringValue("July");
-                        });
-                        o.stringType("family", "fruit");
-                    });
-                    a.object(o -> {
-                        o.stringType("name", "Blood oranges");
-                        o.array("consumptionMonths", m -> {
-                            m.stringValue("February");
-                        });
-                        o.stringType("family", "fruit");
-                    });
-                    a.object(o -> {
-                        o.stringType("name", "Blueberries");
-                        o.array("consumptionMonths", m -> {
-                            m.stringValue("June");
-                            m.stringValue("July");
-                        });
-                        o.stringType("family", "fruit");
-                    });
-                    a.object(o -> {
-                        o.stringType("name", "Broccoli");
-                        o.array("consumptionMonths", m -> {
-                            m.stringValue("February");
-                        });
-                        o.stringType("family", "vegetable");
-                    });
-                    a.object(o -> {
-                        o.stringType("name", "Brussels sprouts");
-                        o.array("consumptionMonths", m -> {
-                            m.stringValue("January");
-                            m.stringValue("October");
-                            m.stringValue("November");
-                        });
-                        o.stringType("family", "vegetable");
-                    });
-                    a.object(o -> {
-                        o.stringType("name", "Cabbage");
-                        o.array("consumptionMonths", m -> {
-                            m.stringValue("February");
-                            m.stringValue("October");
-                            m.stringValue("December");
-                        });
-                        o.stringType("family", "vegetable");
-                    });
-                    a.object(o -> {
-                        o.stringType("name", "Carrots");
-                        o.array("consumptionMonths", m -> {
-                            m.stringValue("January");
-                            m.stringValue("December");
-                        });
-                        o.stringType("family", "vegetable");
-                    });
-                    a.object(o -> {
-                        o.stringType("name", "Cauliflower");
-                        o.array("consumptionMonths", m -> {
-                            m.stringValue("February");
-                            m.stringValue("October");
-                        });
-                        o.stringType("family", "vegetable");
-                    });
-                    a.object(o -> {
-                        o.stringType("name", "Cherries");
-                        o.array("consumptionMonths", m -> {
-                            m.stringValue("May");
-                            m.stringValue("June");
-                            m.stringValue("July");
-                        });
-                        o.stringType("family", "fruit");
-                    });
-                    a.object(o -> {
-                        o.stringType("name", "Corn");
-                        o.array("consumptionMonths", m -> {
-                            m.stringValue("June");
-                            m.stringValue("July");
-                            m.stringValue("August");
-                        });
-                        o.stringType("family", "vegetable");
-                    });
-                    a.object(o -> {
-                        o.stringType("name", "Cranberries");
-                        o.array("consumptionMonths", m -> {
-                            m.stringValue("October");
-                            m.stringValue("November");
-                        });
-                        o.stringType("family", "fruit");
-                    });
-                    a.object(o -> {
-                        o.stringType("name", "Cucumbers");
-                        o.array("consumptionMonths", m -> {
-                            m.stringValue("June");
-                            m.stringValue("July");
-                        });
-                        o.stringType("family", "vegetable");
-                    });
-                    a.object(o -> {
-                        o.stringType("name", "Eggplant");
-                        o.array("consumptionMonths", m -> {
-                            m.stringValue("July");
-                            m.stringValue("August");
-                        });
-                        o.stringType("family", "vegetable");
-                    });
-                    a.object(o -> {
-                        o.stringType("name", "Fava beans");
-                        o.array("consumptionMonths", m -> {
-                            m.stringValue("May");
-                        });
-                        o.stringType("family", "vegetable");
-                    });
-                    a.object(o -> {
-                        o.stringType("name", "Figs");
-                        o.array("consumptionMonths", m -> {
-                            m.stringValue("August");
-                            m.stringValue("September");
-                        });
-                        o.stringType("family", "fruit");
-                    });
-                    a.object(o -> {
-                        o.stringType("name", "Grapefruits");
-                        o.array("consumptionMonths", m -> {
-                            m.stringValue("January");
-                            m.stringValue("February");
-                            m.stringValue("March");
-                        });
-                        o.stringType("family", "fruit");
-                    });
-                    a.object(o -> {
-                        o.stringType("name", "Grapes");
-                        o.array("consumptionMonths", m -> {
-                            m.stringValue("August");
-                            m.stringValue("September");
-                            m.stringValue("October");
-                        });
-                        o.stringType("family", "fruit");
-                    });
-                    a.object(o -> {
-                        o.stringType("name", "Green beans");
-                        o.array("consumptionMonths", m -> {
-                            m.stringValue("May");
-                            m.stringValue("July");
-                        });
-                        o.stringType("family", "vegetable");
-                    });
-                    a.object(o -> {
-                        o.stringType("name", "Kale");
-                        o.array("consumptionMonths", m -> {
-                            m.stringValue("January");
-                            m.stringValue("September");
-                            m.stringValue("December");
-                        });
-                        o.stringType("family", "vegetable");
-                    });
-                    a.object(o -> {
-                        o.stringType("name", "Kumquats");
-                        o.array("consumptionMonths", m -> {
-                            m.stringValue("February");
-                        });
-                        o.stringType("family", "fruit");
-                    });
-                    a.object(o -> {
-                        o.stringType("name", "Leeks");
-                        o.array("consumptionMonths", m -> {
-                            m.stringValue("January");
-                            m.stringValue("November");
-                            m.stringValue("December");
-                        });
-                        o.stringType("family", "vegetable");
-                    });
-                    a.object(o -> {
-                        o.stringType("name", "Lemons");
-                        o.array("consumptionMonths", m -> {
-                            m.stringValue("January");
-                            m.stringValue("March");
-                        });
-                        o.stringType("family", "fruit");
-                    });
-                    a.object(o -> {
-                        o.stringType("name", "Lettuce");
-                        o.array("consumptionMonths", m -> {
-                            m.stringValue("April");
-                        });
-                        o.stringType("family", "vegetable");
-                    });
-                    a.object(o -> {
-                        o.stringType("name", "Melons");
-                        o.array("consumptionMonths", m -> {
-                            m.stringValue("July");
-                            m.stringValue("August");
-                        });
-                        o.stringType("family", "fruit");
-                    });
-                    a.object(o -> {
-                        o.stringType("name", "Nectarines");
-                        o.array("consumptionMonths", m -> {
-                            m.stringValue("July");
-                        });
-                        o.stringType("family", "fruit");
-                    });
-                    a.object(o -> {
-                        o.stringType("name", "New potatoes");
-                        o.array("consumptionMonths", m -> {
-                            m.stringValue("April");
-                        });
-                        o.stringType("family", "vegetable");
-                    });
-                    a.object(o -> {
-                        o.stringType("name", "Okra");
-                        o.array("consumptionMonths", m -> {
-                            m.stringValue("August");
-                        });
-                        o.stringType("family", "vegetable");
-                    });
-                    a.object(o -> {
-                        o.stringType("name", "Oranges");
-                        o.array("consumptionMonths", m -> {
-                            m.stringValue("January");
-                            m.stringValue("March");
-                            m.stringValue("April");
-                            m.stringValue("December");
-                        });
-                        o.stringType("family", "fruit");
-                    });
-                    a.object(o -> {
-                        o.stringType("name", "Parsnips");
-                        o.array("consumptionMonths", m -> {
-                            m.stringValue("January");
-                            m.stringValue("November");
-                            m.stringValue("December");
-                        });
-                        o.stringType("family", "vegetable");
-                    });
-                    a.object(o -> {
-                        o.stringType("name", "Peaches");
-                        o.array("consumptionMonths", m -> {
-                            m.stringValue("June");
-                            m.stringValue("July");
-                            m.stringValue("August");
-                        });
-                        o.stringType("family", "fruit");
-                    });
-                    a.object(o -> {
-                        o.stringType("name", "Pears");
-                        o.array("consumptionMonths", m -> {
-                            m.stringValue("January");
-                            m.stringValue("February");
-                            m.stringValue("September");
-                            m.stringValue("October");
-                            m.stringValue("November");
-                            m.stringValue("December");
-                        });
-                        o.stringType("family", "fruit");
-                    });
-                    a.object(o -> {
-                        o.stringType("name", "Peas");
-                        o.array("consumptionMonths", m -> {
-                            m.stringValue("April");
-                            m.stringValue("May");
-                        });
-                        o.stringType("family", "vegetable");
-                    });
-                    a.object(o -> {
-                        o.stringType("name", "Persimmons");
-                        o.array("consumptionMonths", m -> {
-                            m.stringValue("November");
-                        });
-                        o.stringType("family", "fruit");
-                    });
-                    a.object(o -> {
-                        o.stringType("name", "Plums");
-                        o.array("consumptionMonths", m -> {
-                            m.stringValue("July");
-                            m.stringValue("August");
-                            m.stringValue("September");
-                        });
-                        o.stringType("family", "fruit");
-                    });
-                    a.object(o -> {
-                        o.stringType("name", "Pomegranates");
-                        o.array("consumptionMonths", m -> {
-                            m.stringValue("January");
-                            m.stringValue("October");
-                            m.stringValue("November");
-                            m.stringValue("December");
-                        });
-                        o.stringType("family", "fruit");
-                    });
-                    a.object(o -> {
-                        o.stringType("name", "Pumpkins");
-                        o.array("consumptionMonths", m -> {
-                            m.stringValue("September");
-                            m.stringValue("October");
-                        });
-                        o.stringType("family", "vegetable");
-                    });
-                    a.object(o -> {
-                        o.stringType("name", "Radishes");
-                        o.array("consumptionMonths", m -> {
-                            m.stringValue("March");
-                            m.stringValue("April");
-                        });
-                        o.stringType("family", "vegetable");
-                    });
-                    a.object(o -> {
-                        o.stringType("name", "Ramps");
-                        o.array("consumptionMonths", m -> {
-                            m.stringValue("April");
-                        });
-                        o.stringType("family", "vegetable");
-                    });
-                    a.object(o -> {
-                        o.stringType("name", "Raspberries");
-                        o.array("consumptionMonths", m -> {
-                            m.stringValue("June");
-                            m.stringValue("July");
-                        });
-                        o.stringType("family", "fruit");
-                    });
-                    a.object(o -> {
-                        o.stringType("name", "Rhubarb");
-                        o.array("consumptionMonths", m -> {
-                            m.stringValue("March");
-                            m.stringValue("April");
-                            m.stringValue("May");
-                        });
-                        o.stringType("family", "vegetable");
-                    });
-                    a.object(o -> {
-                        o.stringType("name", "Rutabagas");
-                        o.array("consumptionMonths", m -> {
-                            m.stringValue("February");
-                        });
-                        o.stringType("family", "vegetable");
-                    });
-                    a.object(o -> {
-                        o.stringType("name", "Spinach");
-                        o.array("consumptionMonths", m -> {
-                            m.stringValue("March");
-                        });
-                        o.stringType("family", "vegetable");
-                    });
-                    a.object(o -> {
-                        o.stringType("name", "Spring onions");
-                        o.array("consumptionMonths", m -> {
-                            m.stringValue("March");
-                        });
-                        o.stringType("family", "vegetable");
-                    });
-                    a.object(o -> {
-                        o.stringType("name", "Strawberries");
-                        o.array("consumptionMonths", m -> {
-                            m.stringValue("April");
-                            m.stringValue("May");
-                            m.stringValue("June");
-                        });
-                        o.stringType("family", "fruit");
-                    });
-                    a.object(o -> {
-                        o.stringType("name", "Summer squash");
-                        o.array("consumptionMonths", m -> {
-                            m.stringValue("June");
-                        });
-                        o.stringType("family", "vegetable");
-                    });
-                    a.object(o -> {
-                        o.stringType("name", "Sweet corn");
-                        o.array("consumptionMonths", m -> {
-                            m.stringValue("August");
-                        });
-                        o.stringType("family", "vegetable");
-                    });
-                    a.object(o -> {
-                        o.stringType("name", "Sweet potatoes");
-                        o.array("consumptionMonths", m -> {
-                            m.stringValue("February");
-                            m.stringValue("September");
-                            m.stringValue("November");
-                        });
-                        o.stringType("family", "vegetable");
-                    });
-                    a.object(o -> {
-                        o.stringType("name", "Tangerines");
-                        o.array("consumptionMonths", m -> {
-                            m.stringValue("December");
-                        });
-                        o.stringType("family", "fruit");
-                    });
-                    a.object(o -> {
-                        o.stringType("name", "Tomatoes");
-                        o.array("consumptionMonths", m -> {
-                            m.stringValue("June");
-                            m.stringValue("July");
-                            m.stringValue("August");
-                        });
-                        o.stringType("family", "fruit");
-                    });
-                    a.object(o -> {
-                        o.stringType("name", "Turnips");
-                        o.array("consumptionMonths", m -> {
-                            m.stringValue("January");
-                            m.stringValue("October");
-                        });
-                        o.stringType("family", "vegetable");
-                    });
-                    a.object(o -> {
-                        o.stringType("name", "Winter squash");
-                        o.array("consumptionMonths", m -> {
-                            m.stringValue("January");
-                            m.stringValue("November");
-                        });
-                        o.stringType("family", "vegetable");
-                    });
-                    a.object(o -> {
-                        o.stringType("name", "Zucchini");
-                        o.array("consumptionMonths", m -> {
-                            m.stringValue("May");
-                            m.stringValue("August");
-                        });
-                        o.stringType("family", "vegetable");
-                    });
+                    a.object(newFruitJsonGenerator("Apples", List.of("January", "February", "March", "September", "October", "November", "December")));
+                    a.object(newFruitJsonGenerator("Apricots", List.of("May", "June")));
+                    a.object(newVegetableJsonGenerator("Arugula", List.of("April")));
+                    a.object(newVegetableJsonGenerator("Artichokes", List.of("March")));
+                    a.object(newVegetableJsonGenerator("Asparagus", List.of("March", "April", "May")));
+                    a.object(newVegetableJsonGenerator("Beets", List.of("September")));
+                    a.object(newVegetableJsonGenerator("Bell peppers", List.of("June", "August")));
+                    a.object(newFruitJsonGenerator("Blackberries", List.of("July")));
+                    a.object(newFruitJsonGenerator("Blood oranges", List.of("February")));
+                    a.object(newFruitJsonGenerator("Blueberries", List.of("June", "July")));
+                    a.object(newVegetableJsonGenerator("Broccoli", List.of("February")));
+                    a.object(newVegetableJsonGenerator("Brussels sprouts", List.of("January", "October", "November")));
+                    a.object(newVegetableJsonGenerator("Cabbage", List.of("February", "October", "December")));
+                    a.object(newVegetableJsonGenerator("Carrots", List.of("January", "December")));
+                    a.object(newVegetableJsonGenerator("Cauliflower", List.of("February", "October")));
+                    a.object(newFruitJsonGenerator("Cherries", List.of("May", "June", "July")));
+                    a.object(newVegetableJsonGenerator("Corn", List.of("June", "July", "August")));
+                    a.object(newFruitJsonGenerator("Cranberries", List.of("October", "November")));
+                    a.object(newVegetableJsonGenerator("Cucumbers", List.of("June", "July")));
+                    a.object(newVegetableJsonGenerator("Eggplant", List.of("July", "August")));
+                    a.object(newVegetableJsonGenerator("Fava beans", List.of("May")));
+                    a.object(newFruitJsonGenerator("Figs", List.of("August", "September")));
+                    a.object(newFruitJsonGenerator("Grapefruits", List.of("January", "February", "March")));
+                    a.object(newFruitJsonGenerator("Grapes", List.of("August", "September", "October")));
+                    a.object(newVegetableJsonGenerator("Green beans", List.of("May", "July")));
+                    a.object(newVegetableJsonGenerator("Kale", List.of("January", "September", "December")));
+                    a.object(newFruitJsonGenerator("Kumquats", List.of("February")));
+                    a.object(newVegetableJsonGenerator("Leeks", List.of("January", "November", "December")));
+                    a.object(newFruitJsonGenerator("Lemons", List.of("January", "March")));
+                    a.object(newVegetableJsonGenerator("Lettuce", List.of("April")));
+                    a.object(newFruitJsonGenerator("Melons", List.of("July", "August")));
+                    a.object(newFruitJsonGenerator("Nectarines", List.of("July")));
+                    a.object(newVegetableJsonGenerator("New potatoes", List.of("April")));
+                    a.object(newVegetableJsonGenerator("Okra", List.of("August")));
+                    a.object(newFruitJsonGenerator("Oranges", List.of("January", "March", "April", "December")));
+                    a.object(newVegetableJsonGenerator("Parsnips", List.of("January", "November", "December")));
+                    a.object(newFruitJsonGenerator("Peaches", List.of("June", "July", "August")));
+                    a.object(newFruitJsonGenerator("Pears", List.of("January", "February", "September", "October", "November", "December")));
+                    a.object(newVegetableJsonGenerator("Peas", List.of("April", "May")));
+                    a.object(newFruitJsonGenerator("Persimmons", List.of("November")));
+                    a.object(newFruitJsonGenerator("Plums", List.of("July", "August", "September")));
+                    a.object(newFruitJsonGenerator("Pomegranates", List.of("January", "October", "November", "December")));
+                    a.object(newVegetableJsonGenerator("Pumpkins", List.of("September", "October")));
+                    a.object(newVegetableJsonGenerator("Radishes", List.of("March", "April")));
+                    a.object(newVegetableJsonGenerator("Ramps", List.of("April")));
+                    a.object(newFruitJsonGenerator("Raspberries", List.of("June", "July")));
+                    a.object(newVegetableJsonGenerator("Rhubarb", List.of("March", "April", "May")));
+                    a.object(newVegetableJsonGenerator("Rutabagas", List.of("February")));
+                    a.object(newVegetableJsonGenerator("Spinach", List.of("March")));
+                    a.object(newVegetableJsonGenerator("Spring onions", List.of("March")));
+                    a.object(newFruitJsonGenerator("Strawberries", List.of("April", "May", "June")));
+                    a.object(newVegetableJsonGenerator("Summer squash", List.of("June")));
+                    a.object(newVegetableJsonGenerator("Sweet corn", List.of("August")));
+                    a.object(newVegetableJsonGenerator("Sweet potatoes", List.of("February", "September", "November")));
+                    a.object(newFruitJsonGenerator("Tangerines", List.of("December")));
+                    a.object(newFruitJsonGenerator("Tomatoes", List.of("June", "July", "August")));
+                    a.object(newVegetableJsonGenerator("Turnips", List.of("January", "October")));
+                    a.object(newVegetableJsonGenerator("Winter squash", List.of("January", "November")));
+                    a.object(newVegetableJsonGenerator("Zucchini", List.of("May", "August")));
                 }).build())
                 .toPact(V4Pact.class);
     }
@@ -541,16 +121,18 @@ class HttpFoodServicePactTest {
                 .willRespondWith()
                 .headers(headers())
                 .status(200)
-                .body(newJsonArray(a -> a.stringValue("Pumpkins")
-                        .stringValue("Pears")
-                        .stringValue("Grapes")
-                        .stringValue("Apples")
-                        .stringValue("Squash")
-                        .stringValue("Kale")
-                        .stringValue("Sweet potatoes")
-                        .stringValue("Beets")
-                        .stringValue("Figs")
-                        .stringValue("Plums")).build())
+                .body(newJsonArray(a -> {
+                    a.object(newVegetableJsonGenerator("Pumpkins", List.of("September", "October")));
+                    a.object(newFruitJsonGenerator("Pears", List.of("January", "February", "September", "October", "November", "December")));
+                    a.object(newFruitJsonGenerator("Grapes", List.of("August", "September", "October")));
+                    a.object(newFruitJsonGenerator("Apples", List.of("January", "February", "March", "September", "October", "November", "December")));
+                    a.object(newVegetableJsonGenerator("Winter squash", List.of("January", "November")));
+                    a.object(newVegetableJsonGenerator("Kale", List.of("January", "September", "December")));
+                    a.object(newVegetableJsonGenerator("Sweet potatoes", List.of("February", "September", "November")));
+                    a.object(newVegetableJsonGenerator("Beets", List.of("September")));
+                    a.object(newFruitJsonGenerator("Figs", List.of("August", "September")));
+                    a.object(newFruitJsonGenerator("Plums", List.of("July", "August", "September")));
+                }).build())
                 .toPact(V4Pact.class);
     }
 
@@ -657,11 +239,22 @@ class HttpFoodServicePactTest {
         HttpFoodService foodService = new HttpFoodService(new RestTemplateBuilder().
                 rootUri(mockServer.getUrl())
                 .build());
-        List<String> expected = List.of("Pumpkins", "Pears", "Grapes", "Apples", "Squash", "Kale", "Sweet potatoes", "Beets", "Figs", "Plums");
+        List<Food> expectedFoods = List.of(
+                newVegetable("Pumpkins", "September", "October"),
+                newFruit("Pears", "January", "February", "September", "October", "November", "December"),
+                newFruit("Grapes", "August", "September", "October"),
+                newFruit("Apples", "January", "February", "March", "September", "October", "November", "December"),
+                newVegetable("Winter squash", "January", "November"),
+                newVegetable("Kale", "January", "September", "December"),
+                newVegetable("Sweet potatoes", "February", "September", "November"),
+                newVegetable("Beets", "September"),
+                newFruit("Figs", "August", "September"),
+                newFruit("Plums", "July", "August", "September")
+        );
 
         var foods = foodService.getSeasonalFoods(Month.SEPTEMBER);
 
-        assertEquals(expected, foods);
+        assertEquals(expectedFoods, foods);
     }
 
     @Test
@@ -688,5 +281,29 @@ class HttpFoodServicePactTest {
 
     private static Food newVegetable(String name, String ...consumptionMonths) {
         return new Food(name, "vegetable", Arrays.asList(consumptionMonths));
+    }
+
+    private static Consumer<LambdaDslObject> newFruitJsonGenerator(String name, List<String> consumptionMonths) {
+        return o -> {
+            o.stringType("name", name);
+            o.array("consumptionMonths", m -> {
+                for (String month : consumptionMonths) {
+                    m.stringValue(month);
+                }
+            });
+            o.stringType("family", "fruit");
+        };
+    }
+    
+    private static Consumer<LambdaDslObject> newVegetableJsonGenerator(String name, List<String> consumptionMonths) {
+        return o -> {
+            o.stringType("name", name);
+            o.array("consumptionMonths", m -> {
+                for (String month : consumptionMonths) {
+                    m.stringValue(month);
+                }
+            });
+            o.stringType("family", "vegetable");
+        };
     }
 }
