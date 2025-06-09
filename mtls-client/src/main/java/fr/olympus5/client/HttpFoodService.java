@@ -8,6 +8,7 @@ import org.springframework.web.client.RestTemplate;
 
 import java.time.Month;
 import java.time.format.TextStyle;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
 
@@ -22,20 +23,13 @@ public class HttpFoodService implements FoodService {
 
     @Override
     public List<Food> getSeasonalFoods(Month month) {
-        return restTemplate.exchange("/foods/seasonal/{month}",
-                HttpMethod.GET,
-                null,
-                new ParameterizedTypeReference<List<Food>>() {
-                },
-                month.getDisplayName(TextStyle.FULL, Locale.ENGLISH).toLowerCase()).getBody();
+        return Arrays.asList(restTemplate.getForObject("/foods/seasonal/{month}",
+                Food[].class,
+                month.getDisplayName(TextStyle.FULL, Locale.ENGLISH).toLowerCase()));
     }
 
     @Override
     public List<Food> getAllFoods() {
-        return restTemplate.exchange("/foods",
-                HttpMethod.GET,
-                null,
-                new ParameterizedTypeReference<List<Food>>() {
-                }).getBody();
+        return Arrays.asList(restTemplate.getForObject("/foods", Food[].class));
     }
 }
