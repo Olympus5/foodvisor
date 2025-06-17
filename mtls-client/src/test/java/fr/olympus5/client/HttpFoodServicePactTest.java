@@ -14,10 +14,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.client.HttpClientErrorException;
 
 import java.time.Month;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.function.Consumer;
 
 import static au.com.dius.pact.consumer.dsl.LambdaDsl.newJsonArray;
@@ -275,12 +272,16 @@ class HttpFoodServicePactTest {
         return headers;
     }
 
-    private static Food newFruit(String name, String ...consumptionMonths) {
-        return new Food(name, "fruit", Arrays.asList(consumptionMonths));
+    private static Food newFruit(String name, String... consumptionMonths) {
+        return new Food(name, "fruit", Arrays.stream(consumptionMonths)
+                .map(m -> Month.valueOf(m.toUpperCase(Locale.ENGLISH)))
+                .toList());
     }
 
-    private static Food newVegetable(String name, String ...consumptionMonths) {
-        return new Food(name, "vegetable", Arrays.asList(consumptionMonths));
+    private static Food newVegetable(String name, String... consumptionMonths) {
+        return new Food(name, "vegetable", Arrays.stream(consumptionMonths)
+                .map(m -> Month.valueOf(m.toUpperCase(Locale.ENGLISH)))
+                .toList());
     }
 
     private static Consumer<LambdaDslObject> newFruitJsonGenerator(String name, List<String> consumptionMonths) {
@@ -294,7 +295,7 @@ class HttpFoodServicePactTest {
             o.stringType("family", "fruit");
         };
     }
-    
+
     private static Consumer<LambdaDslObject> newVegetableJsonGenerator(String name, List<String> consumptionMonths) {
         return o -> {
             o.stringType("name", name);
